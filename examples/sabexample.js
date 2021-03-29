@@ -192,7 +192,7 @@ const tick = function() {
       const object3D = object3Ds[uuid];
       if (type === TYPE.DYNAMIC) {
         matrix.fromArray(objectMatricesFloatArray, uuidToIndex[uuid] * BUFFER_CONFIG.BODY_DATA_SIZE);
-        inverse.getInverse(object3D.parent.matrixWorld);
+        inverse.copy(object3D.parent.matrixWorld).invert();
         transform.multiplyMatrices(inverse, matrix);
         transform.decompose(object3D.position, object3D.quaternion, scale);
       } else {

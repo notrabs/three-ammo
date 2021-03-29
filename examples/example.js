@@ -158,7 +158,7 @@ AmmoModule().then(Ammo => {
       const mesh = meshes[uuid];
       if (body.type === TYPE.DYNAMIC) {
         body.syncFromPhysics();
-        inverse.getInverse(mesh.parent.matrixWorld);
+        inverse.copy(mesh.parent.matrixWorld).invert();
         transform.multiplyMatrices(inverse, meshMatrices[uuid]);
         transform.decompose(mesh.position, mesh.quaternion, scale);
       }
