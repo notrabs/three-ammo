@@ -1,4 +1,4 @@
-import "three";
+import { Matrix4 } from "three";
 import constants from "./constants";
 import ammoWorker from "./src/ammo.worker";
 export const CONSTANTS = constants;
@@ -8,8 +8,8 @@ import { iterateGeometries } from "three-to-ammo";
 const MESSAGE_TYPES = CONSTANTS.MESSAGE_TYPES;
 
 export const WorkerHelpers = function(ammoWorker) {
-  const transform = new THREE.Matrix4();
-  const inverse = new THREE.Matrix4();
+  const transform = new Matrix4();
+  const inverse = new Matrix4();
 
   const addBody = function(uuid, mesh, options = {}) {
     inverse.getInverse(mesh.parent.matrixWorld);
