@@ -33,7 +33,7 @@ const World = function(worldConfig) {
     this.solver,
     this.collisionConfiguration
   );
-  this.physicsWorld.setForceUpdateAllAabbs(false);
+  // this.physicsWorld.setForceUpdateAllAabbs(false);
   const gravity = new Ammo.btVector3(0, CONSTANTS.GRAVITY, 0);
   if (worldConfig.hasOwnProperty("gravity")) {
     gravity.setValue(worldConfig.gravity.x, worldConfig.gravity.y, worldConfig.gravity.z);
