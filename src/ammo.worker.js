@@ -71,9 +71,8 @@ function releaseBuffer() {
   }
 }
 
-const tick = () => {
-  setTimeout(tick, simulationRate);
-
+let tickInterval;
+function tick() {
   if (isBufferConsumed()) {
     const now = performance.now();
     const dt = now - lastTick;
@@ -156,7 +155,7 @@ const tick = () => {
 
     releaseBuffer();
   }
-};
+}
 const initSharedArrayBuffer = (sharedArrayBuffer, maxBodies) => {
   /** BUFFER HEADER
    * When using SAB, the first 4 bytes (1 int) are reserved for signaling BUFFER_STATE
@@ -302,12 +301,14 @@ onmessage = async event => {
       world = new World(event.data.worldConfig || {});
       lastTick = performance.now();
       simulationRate = event.data.simulationRate === undefined ? CONSTANTS.SIMULATION_RATE : event.data.simulationRate;
-      self.setTimeout(tick, simulationRate);
+      tickInterval = self.setInterval(tick, simulationRate);
       postMessage({ type: MESSAGE_TYPES.READY });
     });
   } else if (event.data.type === MESSAGE_TYPES.TRANSFER_DATA) {
     if (event.data.simulationRate !== undefined) {
       simulationRate = event.data.simulationRate;
+      clearInterval(tickInterval);
+      tickInterval = self.setInterval(tick, simulationRate);
     }
     objectMatricesFloatArray = event.data.objectMatricesFloatArray;
     objectMatricesIntArray = new Int32Array(objectMatricesFloatArray.buffer);
