@@ -16,8 +16,10 @@ module.exports = (env, argv) => ({
           transferablestress: "./examples/transferablestress.js"
         },
   output: {
+    globalObject: "this",
     path: argv.mode === "production" ? path.resolve(__dirname, "dist") : path.resolve(__dirname, "examples"),
     publicPath: "/examples/",
+    libraryTarget: "umd",
     filename: argv.mode === "production" ? "threeammo.js" : "[name].js"
   },
   plugins: [new webpack.ProvidePlugin({ THREE: "three" })],
@@ -41,10 +43,10 @@ module.exports = (env, argv) => ({
         test: /\.(wasm)$/,
         type: "javascript/auto",
         use: {
-          loader: "file-loader",
+          loader: "url-loader",
           options: {
-            outputPath: "dist",
-            name: "[name]-[hash].[ext]"
+            mimetype: "application/wasm",
+            limit: false
           }
         }
       }

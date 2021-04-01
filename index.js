@@ -1,6 +1,6 @@
 import { Matrix4 } from "three";
 import constants from "./constants";
-import AmmoWorker from "worker-loader!./src/ammo.worker";
+import AmmoWorker from "./src/ammo.worker";
 export const CONSTANTS = constants;
 
 export function createAmmoWorker() {
