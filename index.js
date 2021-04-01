@@ -1,8 +1,11 @@
 import { Matrix4 } from "three";
 import constants from "./constants";
-import ammoWorker from "./src/ammo.worker";
+import AmmoWorker from "worker-loader!./src/ammo.worker";
 export const CONSTANTS = constants;
-export const AmmoWorker = ammoWorker;
+
+export function createAmmoWorker() {
+  return new AmmoWorker();
+}
 
 import { iterateGeometries } from "three-to-ammo";
 const MESSAGE_TYPES = CONSTANTS.MESSAGE_TYPES;
