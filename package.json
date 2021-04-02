@@ -29,6 +29,8 @@
     "stats.js": "^0.17.0",
     "three": "^0.126.1",
     "three-to-ammo": "github:infinitelee/three-to-ammo",
+    "ts-loader": "^8.1.0",
+    "typescript": "^4.2.3",
     "url-loader": "^4.1.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",

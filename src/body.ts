@@ -1,7 +1,7 @@
-/* global Ammo */
-import * as THREE from "three";
+declare const Ammo: any;
+import { Vector3, Quaternion } from "three";
 
-import CONSTANTS from "../constants.js";
+import CONSTANTS from "../constants";
 const ACTIVATION_STATE = CONSTANTS.ACTIVATION_STATE,
   COLLISION_FLAG = CONSTANTS.COLLISION_FLAG,
   SHAPE = CONSTANTS.SHAPE,
@@ -29,7 +29,7 @@ function almostEqualsBtVector3(epsilon, u, v) {
   return Math.abs(u.x() - v.x()) < epsilon && Math.abs(u.y() - v.y()) < epsilon && Math.abs(u.z() - v.z()) < epsilon;
 }
 
-function almostEqualsQuaternion(epsilon, u, v) {
+function almostEqualsQuaternion(epsilon: number, u: Quaternion, v: Quaternion) {
   return (
     (Math.abs(u.x - v.x) < epsilon &&
       Math.abs(u.y - v.y) < epsilon &&
@@ -62,7 +62,7 @@ function Body(bodyConfig, matrix, world) {
   this.angularSleepingThreshold = bodyConfig.hasOwnProperty("angularSleepingThreshold")
     ? bodyConfig.angularSleepingThreshold
     : 2.5;
-  this.angularFactor = new THREE.Vector3(1, 1, 1);
+  this.angularFactor = new Vector3(1, 1, 1);
   if (bodyConfig.angularFactor) {
     this.angularFactor.copy(bodyConfig.angularFactor);
   }
@@ -88,16 +88,16 @@ function Body(bodyConfig, matrix, world) {
  * Parses an element's geometry and component metadata to create an Ammo body instance for the component.
  */
 Body.prototype._initBody = (function() {
-  const pos = new THREE.Vector3();
-  const quat = new THREE.Quaternion();
-  const scale = new THREE.Vector3();
+  const pos = new Vector3();
+  const quat = new Quaternion();
+  const scale = new Vector3();
   return function() {
     this.localScaling = new Ammo.btVector3();
 
     this.matrix.decompose(pos, quat, scale);
 
     this.localScaling.setValue(scale.x, scale.y, scale.z);
-    this.prevScale = new THREE.Vector3(1, 1, 1);
+    this.prevScale = new Vector3(1, 1, 1);
     this.prevNumChildShapes = 0;
 
     this.msTransform = new Ammo.btTransform();
@@ -151,9 +151,9 @@ Body.prototype._initBody = (function() {
  */
 Body.prototype.updateShapes = (function() {
   const needsPolyhedralInitialization = [SHAPE.HULL, SHAPE.HACD, SHAPE.VHACD];
-  const pos = new THREE.Vector3();
-  const quat = new THREE.Quaternion();
-  const scale = new THREE.Vector3();
+  const pos = new Vector3();
+  const quat = new Quaternion();
+  const scale = new Vector3();
   return function() {
     let updated = false;
     this.matrix.decompose(pos, quat, scale);
@@ -294,11 +294,11 @@ Body.prototype.destroy = function() {
  * Updates the rigid body's position, velocity, and rotation, based on the scene.
  */
 Body.prototype.syncToPhysics = (function() {
-  const pos = new THREE.Vector3(),
-    quat = new THREE.Quaternion(),
-    scale = new THREE.Vector3(),
-    q = new THREE.Vector3(),
-    v = new THREE.Vector3();
+  const pos = new Vector3(),
+    quat = new Quaternion(),
+    scale = new Vector3(),
+    q = new Quaternion(),
+    v = new Vector3();
   return function(setCenterOfMassTransform) {
     const body = this.physicsBody;
     if (!body) return;
@@ -333,9 +333,9 @@ Body.prototype.syncToPhysics = (function() {
  * Updates the scene object's position and rotation, based on the physics simulation.
  */
 Body.prototype.syncFromPhysics = (function() {
-  const pos = new THREE.Vector3(),
-    quat = new THREE.Quaternion(),
-    scale = new THREE.Vector3();
+  const pos = new Vector3(),
+    quat = new Quaternion(),
+    scale = new Vector3();
   return function() {
     this.motionState.getWorldTransform(this.msTransform);
     const position = this.msTransform.getOrigin();

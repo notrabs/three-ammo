@@ -1,9 +1,10 @@
-/* global Ammo */
+
+declare const Ammo: any;
 
 const EPS = 10e-6;
 
 import { AmmoDebugDrawer, AmmoDebugConstants } from "ammo-debug-drawer";
-import CONSTANTS from "../constants.js";
+import CONSTANTS from "../constants";
 import * as THREE from "three";
 
 /* @param {object} worldConfig */
@@ -27,6 +28,7 @@ const World = function(worldConfig) {
   this.dispatcher = new Ammo.btCollisionDispatcher(this.collisionConfiguration);
   this.broadphase = new Ammo.btDbvtBroadphase();
   this.solver = new Ammo.btSequentialImpulseConstraintSolver();
+  this.softBodySolver = new Ammo.btDefaultSoftBodySolver();
   this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(
     this.dispatcher,
     this.broadphase,

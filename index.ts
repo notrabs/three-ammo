@@ -1,5 +1,6 @@
 import { Matrix4 } from "three";
 import constants from "./constants";
+// @ts-ignore
 import AmmoWorker from "./src/ammo.worker";
 export const CONSTANTS = constants;
 

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "outDir": "./dist/",
+    "module": "es6",
+    "target": "es5",
+    "lib": ["webworker", "es5", "scripthost"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports" : true,
+    "esModuleInterop" : true,
+    "sourceMap": true,
+    "declaration": true
+  },
+  "include": ["*.ts"]
+}

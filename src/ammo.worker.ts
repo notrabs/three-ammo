@@ -1,20 +1,21 @@
-import CONSTANTS from "../constants.js";
+import CONSTANTS from "../constants";
+import World from "./world";
+import Body from "./body";
+import Constraint from "./constraint";
+import { DefaultBufferSize } from "ammo-debug-drawer";
+import { Matrix4 } from "three";
+import { createCollisionShapes } from "three-to-ammo";
+
+import Ammo from "ammo.js/builds/ammo.wasm.js";
+// @ts-ignore
+import AmmoWasm from "!!url-loader!ammo.js/builds/ammo.wasm.wasm";
+
 const MESSAGE_TYPES = CONSTANTS.MESSAGE_TYPES;
 const TYPE = CONSTANTS.TYPE;
 const SHAPE = CONSTANTS.SHAPE;
 const CONSTRAINT = CONSTANTS.CONSTRAINT;
 const BUFFER_CONFIG = CONSTANTS.BUFFER_CONFIG;
 const BUFFER_STATE = CONSTANTS.BUFFER_STATE;
-import * as THREE from "three";
-import World from "./world";
-import Body from "./body";
-import Constraint from "./constraint";
-import { DefaultBufferSize } from "ammo-debug-drawer";
-
-import { createCollisionShapes } from "three-to-ammo";
-
-import Ammo from "ammo.js/builds/ammo.wasm.js";
-import AmmoWasm from "!!url-loader!ammo.js/builds/ammo.wasm.wasm";
 
 function initializeWasm(wasmUrl) {
   return Ammo.bind(undefined, {
@@ -219,7 +220,7 @@ function addBody({ uuid, matrix, options }) {
 
     indexes[uuid] = freeIndex;
     uuids.push(uuid);
-    const transform = new THREE.Matrix4();
+    const transform = new Matrix4();
     transform.fromArray(matrix);
     matrices[uuid] = transform;
 

@@ -1,5 +1,5 @@
-/* global Ammo */
-import CONSTANTS from "../constants.js";
+declare const Ammo: any;
+import CONSTANTS from "../constants";
 const CONSTRAINT = CONSTANTS.CONSTRAINT;
 const CONSTRAINTS = [
   CONSTRAINT.LOCK,

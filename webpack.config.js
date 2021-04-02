@@ -7,7 +7,7 @@ module.exports = (env, argv) => ({
   },
   entry:
     argv.mode === "production"
-      ? "./index.js"
+      ? "./index.ts"
       : {
           example: "./examples/example.js",
           sabexample: "./examples/sabexample.js",
@@ -22,7 +22,6 @@ module.exports = (env, argv) => ({
     libraryTarget: "umd",
     filename: argv.mode === "production" ? "threeammo.js" : "[name].js"
   },
-  plugins: [new webpack.ProvidePlugin({ THREE: "three" })],
   devtool: argv.mode === "production" ? "source-map" : "inline-source-map",
   devServer: {
     host: "0.0.0.0",
@@ -31,7 +30,12 @@ module.exports = (env, argv) => ({
   module: {
     rules: [
       {
-        test: /\.worker\.js$/,
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/
+      },
+      {
+        test: /\.worker\.ts$/,
         loader: "worker-loader",
         options: {
           name: "[name]-[hash].js",
@@ -51,5 +55,8 @@ module.exports = (env, argv) => ({
         }
       }
     ]
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"]
   }
 });
