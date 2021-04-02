@@ -1,15 +1,11 @@
-export default {
+import { BodyActivationState, BodyType, ConstraintType, ShapeFit, ShapeType } from "./src/types";
+
+export const CONSTANTS = {
   GRAVITY: -9.8,
   MAX_INTERVAL: 4 / 60,
   ITERATIONS: 10,
   SIMULATION_RATE: 8.333, // 8.333ms / 120hz
-  ACTIVATION_STATE: {
-    ACTIVE_TAG: "active",
-    ISLAND_SLEEPING: "islandSleeping",
-    WANTS_DEACTIVATION: "wantsDeactivation",
-    DISABLE_DEACTIVATION: "disableDeactivation",
-    DISABLE_SIMULATION: "disableSimulation"
-  },
+  ACTIVATION_STATE: BodyActivationState,
   COLLISION_FLAG: {
     STATIC_OBJECT: 1,
     KINEMATIC_OBJECT: 2,
@@ -19,36 +15,10 @@ export default {
     DISABLE_VISUALIZE_OBJECT: 32, //disable debug drawing
     DISABLE_SPU_COLLISION_PROCESSING: 64 //disable parallel/SPU processing
   },
-  TYPE: {
-    STATIC: "static",
-    DYNAMIC: "dynamic",
-    KINEMATIC: "kinematic"
-  },
-  SHAPE: {
-    BOX: "box",
-    CYLINDER: "cylinder",
-    SPHERE: "sphere",
-    CAPSULE: "capsule",
-    CONE: "cone",
-    HULL: "hull",
-    HACD: "hacd",
-    VHACD: "vhacd",
-    MESH: "mesh",
-    HEIGHTFIELD: "heightfield"
-  },
-  FIT: {
-    ALL: "all",
-    MANUAL: "manual"
-  },
-  CONSTRAINT: {
-    LOCK: "lock",
-    FIXED: "fixed",
-    SPRING: "spring",
-    SLIDER: "slider",
-    HINGE: "hinge",
-    CONE_TWIST: "coneTwist",
-    POINT_TO_POINT: "pointToPoint"
-  },
+  TYPE: BodyType,
+  SHAPE: ShapeType,
+  FIT: ShapeFit,
+  CONSTRAINT: ConstraintType,
   MESSAGE_TYPES: {
     INIT: 0,
     READY: 1,

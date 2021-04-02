@@ -1,15 +1,10 @@
-declare const _default: {
+import { BodyActivationState, BodyType, ConstraintType, ShapeFit, ShapeType } from "./src/types";
+export declare const CONSTANTS: {
     GRAVITY: number;
     MAX_INTERVAL: number;
     ITERATIONS: number;
     SIMULATION_RATE: number;
-    ACTIVATION_STATE: {
-        ACTIVE_TAG: string;
-        ISLAND_SLEEPING: string;
-        WANTS_DEACTIVATION: string;
-        DISABLE_DEACTIVATION: string;
-        DISABLE_SIMULATION: string;
-    };
+    ACTIVATION_STATE: typeof BodyActivationState;
     COLLISION_FLAG: {
         STATIC_OBJECT: number;
         KINEMATIC_OBJECT: number;
@@ -19,36 +14,10 @@ declare const _default: {
         DISABLE_VISUALIZE_OBJECT: number;
         DISABLE_SPU_COLLISION_PROCESSING: number;
     };
-    TYPE: {
-        STATIC: string;
-        DYNAMIC: string;
-        KINEMATIC: string;
-    };
-    SHAPE: {
-        BOX: string;
-        CYLINDER: string;
-        SPHERE: string;
-        CAPSULE: string;
-        CONE: string;
-        HULL: string;
-        HACD: string;
-        VHACD: string;
-        MESH: string;
-        HEIGHTFIELD: string;
-    };
-    FIT: {
-        ALL: string;
-        MANUAL: string;
-    };
-    CONSTRAINT: {
-        LOCK: string;
-        FIXED: string;
-        SPRING: string;
-        SLIDER: string;
-        HINGE: string;
-        CONE_TWIST: string;
-        POINT_TO_POINT: string;
-    };
+    TYPE: typeof BodyType;
+    SHAPE: typeof ShapeType;
+    FIT: typeof ShapeFit;
+    CONSTRAINT: typeof ConstraintType;
     MESSAGE_TYPES: {
         INIT: number;
         READY: number;
@@ -93,4 +62,3 @@ declare const _default: {
         CONSUMED: number;
     };
 };
-export default _default;

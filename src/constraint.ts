@@ -1,4 +1,4 @@
-import CONSTANTS from "../constants";
+import { CONSTANTS } from "../constants";
 const CONSTRAINT = CONSTANTS.CONSTRAINT;
 const CONSTRAINTS = [
   CONSTRAINT.LOCK,

@@ -1,4 +1,4 @@
-import CONSTANTS from "../constants";
+import { CONSTANTS } from "../constants";
 import World from "./world";
 import Body from "./body";
 import Constraint from "./constraint";
