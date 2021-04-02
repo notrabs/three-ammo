@@ -7,7 +7,7 @@ module.exports = (env, argv) => ({
   },
   entry:
     argv.mode === "production"
-      ? "./index.ts"
+      ? ["./index.ts", "./worker/index.js"]
       : {
           example: "./examples/example.js",
           sabexample: "./examples/sabexample.js",

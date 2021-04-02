@@ -1,6 +1,5 @@
 export * from "./constants";
 export * from "./src/types";
-export declare function createAmmoWorker(): any;
 export declare const WorkerHelpers: (ammoWorker: any) => {
     addBody(uuid: any, mesh: any, options?: {}): void;
     updateBody(uuid: any, options: any): void;
