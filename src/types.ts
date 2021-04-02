@@ -45,6 +45,12 @@ export interface BodyConfig{
   // default = world.gravity
   gravity?: Vector3;
 
+  enableCCD?: boolean;
+  // e.g. 1e-7
+  ccdMotionThreshold? :number;
+  // e.g. 0.5
+  ccdSweptSphereRadius?: number;
+
   // default = 0.1
   linearDamping?: number;
   // default = 0.1

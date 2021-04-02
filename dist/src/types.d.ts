@@ -23,6 +23,9 @@ export interface BodyConfig {
     loadedEvent?: string;
     mass?: number;
     gravity?: Vector3;
+    enableCCD?: boolean;
+    ccdMotionThreshold?: number;
+    ccdSweptSphereRadius?: number;
     linearDamping?: number;
     angularDamping?: number;
     linearSleepingThreshold?: number;

@@ -88,6 +88,9 @@ export default class Body {
   shapesChanged: boolean;
   polyHedralFeaturesInitialized: boolean;
   triMesh: Ammo.btTriangleMesh;
+  enableCCD: boolean;
+  ccdMotionThreshold: number;
+  ccdSweptSphereRadius: number;
 
   constructor(bodyConfig: BodyConfig, matrix: Matrix4, world: World) {
     this.loadedEvent = bodyConfig.loadedEvent ? bodyConfig.loadedEvent : "";
@@ -121,6 +124,10 @@ export default class Body {
     this.collisionFilterGroup = bodyConfig.hasOwnProperty("collisionFilterGroup") ? bodyConfig.collisionFilterGroup : 1; //32-bit mask
     this.collisionFilterMask = bodyConfig.hasOwnProperty("collisionFilterMask") ? bodyConfig.collisionFilterMask : 1; //32-bit mask
     this.scaleAutoUpdate = bodyConfig.hasOwnProperty("scaleAutoUpdate") ? bodyConfig.scaleAutoUpdate : true;
+
+    this.enableCCD = bodyConfig.enableCCD ?? false;
+    this.ccdMotionThreshold = bodyConfig.ccdMotionThreshold ?? 1e-7;
+    this.ccdSweptSphereRadius = bodyConfig.ccdSweptSphereRadius ?? 0.5;
 
     this.matrix = matrix;
     this.world = world;
@@ -423,9 +430,10 @@ export default class Body {
 
     this.updateMass();
 
-    // TODO: enable CCD if dynamic?
-    // this.physicsBody.setCcdMotionThreshold(0.001);
-    // this.physicsBody.setCcdSweptSphereRadius(0.001);
+    if (this.enableCCD) {
+      this.physicsBody.setCcdMotionThreshold(this.ccdMotionThreshold);
+      this.physicsBody.setCcdSweptSphereRadius(this.ccdSweptSphereRadius);
+    }
 
     this.world.updateBody(this.physicsBody);
   }
