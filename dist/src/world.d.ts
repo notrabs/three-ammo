@@ -1,10 +1,10 @@
 import { WorldConfig } from "./types";
 export default class World {
-    collisionConfiguration: Ammo.btSoftBodyRigidBodyCollisionConfiguration;
+    collisionConfiguration: Ammo.btDefaultCollisionConfiguration;
     dispatcher: Ammo.btCollisionDispatcher;
     broadphase: Ammo.btDbvtBroadphase;
     solver: Ammo.btSequentialImpulseConstraintSolver;
-    physicsWorld: Ammo.btSoftRigidDynamicsWorld;
+    physicsWorld: Ammo.btDiscreteDynamicsWorld;
     debugDrawer: any;
     object3Ds: Map<any, any>;
     collisions: Map<any, any>;
@@ -13,7 +13,6 @@ export default class World {
     debugDrawMode: number;
     maxSubSteps: number;
     fixedTimeStep: number;
-    softBodySolver: Ammo.btDefaultSoftBodySolver;
     constructor(worldConfig: WorldConfig);
     isDebugEnabled(): boolean;
     addBody(body: any, object3D: any, group: any, mask: any): void;

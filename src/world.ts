@@ -5,11 +5,11 @@ import { CONSTANTS } from "../constants";
 const EPS = 10e-6;
 
 export default class World {
-  collisionConfiguration: Ammo.btSoftBodyRigidBodyCollisionConfiguration;
+  collisionConfiguration: Ammo.btDefaultCollisionConfiguration;
   dispatcher: Ammo.btCollisionDispatcher;
   broadphase: Ammo.btDbvtBroadphase;
   solver: Ammo.btSequentialImpulseConstraintSolver;
-  physicsWorld: Ammo.btSoftRigidDynamicsWorld;
+  physicsWorld: Ammo.btDiscreteDynamicsWorld;
   debugDrawer = null;
 
   object3Ds = new Map();
@@ -19,24 +19,24 @@ export default class World {
   debugDrawMode: number;
   maxSubSteps: number;
   fixedTimeStep: number;
-  softBodySolver: Ammo.btDefaultSoftBodySolver;
+  // softBodySolver: Ammo.btDefaultSoftBodySolver;
 
   constructor(worldConfig: WorldConfig) {
     this.epsilon = worldConfig.epsilon || EPS;
     this.debugDrawMode = worldConfig.debugDrawMode || AmmoDebugConstants.NoDebug;
     this.maxSubSteps = worldConfig.maxSubSteps || 4;
     this.fixedTimeStep = worldConfig.fixedTimeStep || 1 / 60;
-    this.collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration();
+    this.collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
     this.dispatcher = new Ammo.btCollisionDispatcher(this.collisionConfiguration);
     this.broadphase = new Ammo.btDbvtBroadphase();
     this.solver = new Ammo.btSequentialImpulseConstraintSolver();
-    this.softBodySolver = new Ammo.btDefaultSoftBodySolver();
-    this.physicsWorld = new Ammo.btSoftRigidDynamicsWorld(
+    // this.softBodySolver = new Ammo.btDefaultSoftBodySolver();
+    this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(
       this.dispatcher,
       this.broadphase,
       this.solver,
-      this.collisionConfiguration,
-      this.softBodySolver
+      this.collisionConfiguration
+      // this.softBodySolver
     );
     // this.physicsWorld.setForceUpdateAllAabbs(false);
     const gravity = new Ammo.btVector3(0, CONSTANTS.GRAVITY, 0);
@@ -127,7 +127,7 @@ export default class World {
     Ammo.destroy(this.dispatcher);
     Ammo.destroy(this.broadphase);
     Ammo.destroy(this.solver);
-    Ammo.destroy(this.softBodySolver);
+    // Ammo.destroy(this.softBodySolver);
     Ammo.destroy(this.physicsWorld);
     Ammo.destroy(this.debugDrawer);
   }
