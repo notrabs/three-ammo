@@ -1,11 +1,7 @@
-
-declare const Ammo: any;
-
 const EPS = 10e-6;
 
 import { AmmoDebugDrawer, AmmoDebugConstants } from "ammo-debug-drawer";
 import CONSTANTS from "../constants";
-import * as THREE from "three";
 
 /* @param {object} worldConfig */
 const World = function(worldConfig) {
@@ -29,11 +25,12 @@ const World = function(worldConfig) {
   this.broadphase = new Ammo.btDbvtBroadphase();
   this.solver = new Ammo.btSequentialImpulseConstraintSolver();
   this.softBodySolver = new Ammo.btDefaultSoftBodySolver();
-  this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(
+  this.physicsWorld = new Ammo.btSoftRigidDynamicsWorld(
     this.dispatcher,
     this.broadphase,
     this.solver,
-    this.collisionConfiguration
+    this.collisionConfiguration,
+    this.softBodySolver
   );
   // this.physicsWorld.setForceUpdateAllAabbs(false);
   const gravity = new Ammo.btVector3(0, CONSTANTS.GRAVITY, 0);
@@ -52,12 +49,14 @@ World.prototype.isDebugEnabled = function() {
 /* @param {Ammo.btCollisionObject} body */
 World.prototype.addBody = function(body, object3D, group, mask) {
   this.physicsWorld.addRigidBody(body, group, mask);
+  // @ts-ignore
   this.object3Ds.set(Ammo.getPointer(body), object3D);
 };
 
 /* @param {Ammo.btCollisionObject} body */
 World.prototype.removeBody = function(body) {
   this.physicsWorld.removeRigidBody(body);
+  // @ts-ignore
   const bodyptr = Ammo.getPointer(body);
   this.object3Ds.delete(bodyptr);
   this.collisions.delete(bodyptr);
@@ -68,6 +67,7 @@ World.prototype.removeBody = function(body) {
 };
 
 World.prototype.updateBody = function(body) {
+  // @ts-ignore
   if (this.object3Ds.has(Ammo.getPointer(body))) {
     this.physicsWorld.updateSingleAabb(body);
   }
@@ -85,7 +85,9 @@ World.prototype.step = function(deltaTime) {
   for (let i = 0; i < numManifolds; i++) {
     const persistentManifold = this.dispatcher.getManifoldByIndexInternal(i);
     const numContacts = persistentManifold.getNumContacts();
+    // @ts-ignore
     const body0ptr = Ammo.getPointer(persistentManifold.getBody0());
+    // @ts-ignore
     const body1ptr = Ammo.getPointer(persistentManifold.getBody1());
 
     for (let j = 0; j < numContacts; j++) {

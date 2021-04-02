@@ -1,4 +1,3 @@
-declare const Ammo: any;
 import CONSTANTS from "../constants";
 const CONSTRAINT = CONSTANTS.CONSTRAINT;
 const CONSTRAINTS = [

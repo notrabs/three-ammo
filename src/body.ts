@@ -1,4 +1,3 @@
-declare const Ammo: any;
 import { Vector3, Quaternion } from "three";
 
 import CONSTANTS from "../constants";
