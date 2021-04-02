@@ -7,7 +7,7 @@ module.exports = (env, argv) => ({
   },
   entry:
     argv.mode === "production"
-      ? ["./index.ts", "./worker/index.js"]
+      ? { threeammo: "./index.ts", "threeammo-worker": "./worker/index.js" }
       : {
           example: "./examples/example.js",
           sabexample: "./examples/sabexample.js",
@@ -20,7 +20,7 @@ module.exports = (env, argv) => ({
     path: argv.mode === "production" ? path.resolve(__dirname, "dist") : path.resolve(__dirname, "examples"),
     publicPath: "/examples/",
     libraryTarget: "umd",
-    filename: argv.mode === "production" ? "threeammo.js" : "[name].js"
+    filename: argv.mode === "production" ? "[name].js" : "[name].js"
   },
   devtool: argv.mode === "production" ? "source-map" : "inline-source-map",
   devServer: {
