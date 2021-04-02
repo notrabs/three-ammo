@@ -59,7 +59,7 @@ let usingSharedArrayBuffer = false;
 
 function isBufferConsumed() {
   if (usingSharedArrayBuffer) {
-    return headerIntArray && Atomics.load(headerIntArray, 0) !== BUFFER_STATE.READY;
+    return headerIntArray && Atomics.load(headerIntArray, 0) != BUFFER_STATE.READY;
   } else {
     return objectMatricesFloatArray && objectMatricesFloatArray.buffer.byteLength !== 0;
   }
