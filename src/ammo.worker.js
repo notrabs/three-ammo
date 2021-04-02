@@ -103,6 +103,10 @@ function tick() {
           break;
         case MESSAGE_TYPES.ACTIVATE_BODY:
           activateBody(message);
+          break;
+        case MESSAGE_TYPES.SET_LINEAR_VELOCITY:
+          bodySetLinearVelocity(message);
+          break;
       }
     }
 
@@ -214,6 +218,15 @@ function updateBody({ uuid, options }) {
   if (bodies[uuid]) {
     bodies[uuid].update(options);
     bodies[uuid].physicsBody.activate(true);
+  }
+}
+
+function bodySetLinearVelocity({ uuid, velocity }) {
+  const body = bodies[uuid];
+  if (body) {
+    console.log(velocity);
+    body.physicsBody.getLinearVelocity().setValue(velocity.x, velocity.y, velocity.z);
+    body.physicsBody.activate(true);
   }
 }
 
@@ -396,6 +409,11 @@ onmessage = async event => {
       }
 
       case MESSAGE_TYPES.ACTIVATE_BODY: {
+        messageQueue.push(event.data);
+        break;
+      }
+
+      case MESSAGE_TYPES.SET_LINEAR_VELOCITY: {
         messageQueue.push(event.data);
         break;
       }

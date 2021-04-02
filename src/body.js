@@ -120,6 +120,7 @@ Body.prototype._initBody = (function() {
       this.compoundShape,
       this.localInertia
     );
+
     this.physicsBody = new Ammo.btRigidBody(this.rbInfo);
     this.physicsBody.setActivationState(ACTIVATION_STATES.indexOf(this.activationState) + 1);
     this.physicsBody.setSleepingThresholds(this.linearSleepingThreshold, this.angularSleepingThreshold);
@@ -257,6 +258,10 @@ Body.prototype.update = function(bodyConfig) {
     const angularFactor = new Ammo.btVector3(this.angularFactor.x, this.angularFactor.y, this.angularFactor.z);
     this.physicsBody.setAngularFactor(angularFactor);
     Ammo.destroy(angularFactor);
+  }
+
+  if (bodyConfig.position) {
+    this.physicsBody.setPosition(bodyConfig.position.x, bodyConfig.position.y, bodyConfig.position.z);
   }
 
   //TODO: support dynamic update for other properties
