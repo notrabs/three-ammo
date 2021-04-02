@@ -224,7 +224,6 @@ function updateBody({ uuid, options }) {
 function bodySetLinearVelocity({ uuid, velocity }) {
   const body = bodies[uuid];
   if (body) {
-    console.log(velocity);
     body.physicsBody.getLinearVelocity().setValue(velocity.x, velocity.y, velocity.z);
     body.physicsBody.activate(true);
   }
