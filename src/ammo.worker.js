@@ -49,6 +49,10 @@ let freeIndex = 0;
 
 let freeIndexArray;
 
+let vector3Tmp1;
+let vector3Tmp2;
+let quatTmp1;
+
 let world, headerIntArray, headerFloatArray, objectMatricesFloatArray, objectMatricesIntArray, lastTick, getPointer;
 let usingSharedArrayBuffer = false;
 
@@ -104,8 +108,23 @@ function tick() {
         case MESSAGE_TYPES.ACTIVATE_BODY:
           activateBody(message);
           break;
+        case MESSAGE_TYPES.SET_MOTION_STATE:
+          bodySetMotionState(message);
+          break;
         case MESSAGE_TYPES.SET_LINEAR_VELOCITY:
           bodySetLinearVelocity(message);
+          break;
+        case MESSAGE_TYPES.APPLY_IMPULSE:
+          bodyApplyImpulse(message);
+          break;
+        case MESSAGE_TYPES.APPLY_CENTRAL_IMPULSE:
+          bodyApplyCentralImpulse(message);
+          break;
+        case MESSAGE_TYPES.APPLY_FORCE:
+          bodyApplyForce(message);
+          break;
+        case MESSAGE_TYPES.APPLY_CENTRAL_FORCE:
+          bodyApplyCentralForce(message);
           break;
       }
     }
@@ -221,10 +240,68 @@ function updateBody({ uuid, options }) {
   }
 }
 
+function bodySetMotionState({ uuid, position, rotation }) {
+  const body = bodies[uuid];
+  if (body) {
+    const transform = body.physicsBody.getCenterOfMassTransform();
+
+    if (position) {
+      vector3Tmp1.setValue(position.x, position.y, position.z);
+      transform.setOrigin(vector3Tmp1);
+    }
+
+    if (rotation) {
+      quatTmp1.setValue(rotation.x, rotation.y, rotation.z, rotation.w);
+      transform.setRotation(quatTmp1);
+    }
+
+    body.physicsBody.setCenterOfMassTransform(transform);
+    body.physicsBody.activate(true);
+  }
+}
+
 function bodySetLinearVelocity({ uuid, velocity }) {
   const body = bodies[uuid];
   if (body) {
     body.physicsBody.getLinearVelocity().setValue(velocity.x, velocity.y, velocity.z);
+    body.physicsBody.activate(true);
+  }
+}
+
+function bodyApplyImpulse({ uuid, impulse, relativeOffset }) {
+  const body = bodies[uuid];
+  if (body) {
+    vector3Tmp1.setValue(impulse.x, impulse.y, impulse.z);
+    vector3Tmp2.setValue(relativeOffset.x, relativeOffset.y, relativeOffset.z);
+    body.physicsBody.applyImpulse(vector3Tmp1, vector3Tmp2);
+    body.physicsBody.activate(true);
+  }
+}
+
+function bodyApplyCentralImpulse({ uuid, impulse }) {
+  const body = bodies[uuid];
+  if (body) {
+    vector3Tmp1.setValue(impulse.x, impulse.y, impulse.z);
+    body.physicsBody.applyCentralImpulse(vector3Tmp1);
+    body.physicsBody.activate(true);
+  }
+}
+
+function bodyApplyForce({ uuid, force, relativeOffset }) {
+  const body = bodies[uuid];
+  if (body) {
+    vector3Tmp1.setValue(force.x, force.y, force.z);
+    vector3Tmp2.setValue(relativeOffset.x, relativeOffset.y, relativeOffset.z);
+    body.physicsBody.applyImpulse(vector3Tmp1, vector3Tmp2);
+    body.physicsBody.activate(true);
+  }
+}
+
+function bodyApplyCentralForce({ uuid, force }) {
+  const body = bodies[uuid];
+  if (body) {
+    vector3Tmp1.setValue(force.x, force.y, force.z);
+    body.physicsBody.applyCentralForce(vector3Tmp1);
     body.physicsBody.activate(true);
   }
 }
@@ -293,6 +370,10 @@ onmessage = async event => {
 
     AmmoModule().then(Ammo => {
       getPointer = Ammo.getPointer;
+
+      vector3Tmp1 = new Ammo.btVector3(0, 0, 0);
+      vector3Tmp2 = new Ammo.btVector3(0, 0, 0);
+      quatTmp1 = new Ammo.btQuaternion(0, 0, 0, 0);
 
       const maxBodies = event.data.maxBodies ? event.data.maxBodies : BUFFER_CONFIG.MAX_BODIES;
 
@@ -402,20 +483,16 @@ onmessage = async event => {
         break;
       }
 
-      case MESSAGE_TYPES.RESET_DYNAMIC_BODY: {
+      case MESSAGE_TYPES.RESET_DYNAMIC_BODY:
+      case MESSAGE_TYPES.ACTIVATE_BODY:
+      case MESSAGE_TYPES.SET_MOTION_STATE:
+      case MESSAGE_TYPES.SET_LINEAR_VELOCITY:
+      case MESSAGE_TYPES.APPLY_IMPULSE:
+      case MESSAGE_TYPES.APPLY_CENTRAL_IMPULSE:
+      case MESSAGE_TYPES.APPLY_FORCE:
+      case MESSAGE_TYPES.APPLY_CENTRAL_FORCE:
         messageQueue.push(event.data);
         break;
-      }
-
-      case MESSAGE_TYPES.ACTIVATE_BODY: {
-        messageQueue.push(event.data);
-        break;
-      }
-
-      case MESSAGE_TYPES.SET_LINEAR_VELOCITY: {
-        messageQueue.push(event.data);
-        break;
-      }
     }
   } else {
     console.error("Error: World Not Initialized", event.data);

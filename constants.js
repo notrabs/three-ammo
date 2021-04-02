@@ -66,7 +66,7 @@ module.exports = {
     TRANSFER_DATA: 13,
 
     // Body messages
-    SYNC_TO_PHYSICS: 50,
+    SET_MOTION_STATE: 50,
     // GET_LINEAR_VELOCITY: 51,
     SET_LINEAR_VELOCITY: 52,
     // GET_ANGULAR_VELOCITY: 53,

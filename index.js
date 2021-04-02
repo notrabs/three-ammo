@@ -123,12 +123,55 @@ export const WorkerHelpers = function(ammoWorker) {
       });
     },
 
+    bodySetMotionState(uuid, position, rotation) {
+      ammoWorker.postMessage({
+        type: MESSAGE_TYPES.SET_MOTION_STATE,
+        uuid,
+        position,
+        rotation
+      });
+    },
+
     bodySetLinearVelocity(uuid, velocity) {
       ammoWorker.postMessage({
         type: MESSAGE_TYPES.SET_LINEAR_VELOCITY,
         uuid,
         velocity
       });
+    },
+
+    bodyApplyImpulse(uuid, impulse, relativeOffset) {
+      if (!relativeOffset) {
+        ammoWorker.postMessage({
+          type: MESSAGE_TYPES.APPLY_CENTRAL_IMPULSE,
+          uuid,
+          impulse
+        });
+      } else {
+        ammoWorker.postMessage({
+          type: MESSAGE_TYPES.APPLY_IMPULSE,
+          uuid,
+          impulse,
+          relativeOffset
+        });
+      }
+    },
+
+    bodyApplyForce(uuid, force, relativeOffset) {
+      if (!relativeOffset) {
+        ammoWorker.postMessage({
+          type: MESSAGE_TYPES.APPLY_CENTRAL_FORCE,
+          uuid,
+          force
+        });
+      } else {
+        ammoWorker.postMessage({
+          type: MESSAGE_TYPES.APPLY_FORCE,
+          uuid,
+          force,
+          relativeOffset
+        });
+      }
     }
   };
 };
