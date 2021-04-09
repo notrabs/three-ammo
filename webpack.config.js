@@ -40,7 +40,8 @@ module.exports = (env, argv) => ({
         options: {
           name: "[name]-[hash].js",
           publicPath: "/",
-          inline: true
+          inline: true,
+          fallback: false
         }
       },
       {

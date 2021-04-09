@@ -16,6 +16,6 @@
     "sourceMap": true,
     "declaration": true
   },
-  "files": ["./node_modules/ammojs-typed/ammo/ambient/ammo.d.ts"],
+  "files": ["./node_modules/ammojs-wasm-typed/ammo/ambient/ammo.d.ts"],
   "include": ["*.ts"]
 }
