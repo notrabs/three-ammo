@@ -253,7 +253,7 @@ function bodySetMotionState({ uuid, position, rotation }) {
     }
 
     if (rotation) {
-      quatTmp1.setValue(rotation.x, rotation.y, rotation.z, rotation.w);
+      quatTmp1.setValue(rotation._x, rotation._y, rotation._z, rotation._w);
       transform.setRotation(quatTmp1);
     }
 
