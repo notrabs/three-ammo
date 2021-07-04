@@ -5,6 +5,7 @@ export declare const WorkerHelpers: (ammoWorker: any) => {
     updateBody(uuid: any, options: any): void;
     removeBody(uuid: any): void;
     addShapes(bodyUuid: any, shapesUuid: any, mesh: any, options?: {}): void;
+    bodySetShapesOffset(bodyUuid: any, offset: any): void;
     removeShapes(bodyUuid: any, shapesUuid: any): void;
     addConstraint(constraintId: any, bodyUuid: any, targetUuid: any, options?: {}): void;
     removeConstraint(constraintId: any): void;

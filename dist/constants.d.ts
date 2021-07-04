@@ -33,6 +33,7 @@ export declare const CONSTANTS: {
         RESET_DYNAMIC_BODY: number;
         ACTIVATE_BODY: number;
         TRANSFER_DATA: number;
+        SET_SHAPES_OFFSET: number;
         SET_MOTION_STATE: number;
         SET_LINEAR_VELOCITY: number;
         SET_ANGULAR_VELOCITY: number;
