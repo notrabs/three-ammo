@@ -34,6 +34,7 @@ export const CONSTANTS = {
     RESET_DYNAMIC_BODY: 11,
     ACTIVATE_BODY: 12,
     TRANSFER_DATA: 13,
+    SET_SHAPES_OFFSET: 14,
 
     // Body messages
     SET_MOTION_STATE: 50,

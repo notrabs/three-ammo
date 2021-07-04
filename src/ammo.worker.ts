@@ -101,6 +101,9 @@ function tick() {
         case MESSAGE_TYPES.ADD_SHAPES:
           addShapes(message);
           break;
+        case MESSAGE_TYPES.SET_SHAPES_OFFSET:
+          setShapesOffset(message);
+          break;
         case MESSAGE_TYPES.ADD_CONSTRAINT:
           addConstraint(message);
           break;
@@ -338,6 +341,12 @@ function addShapes({ bodyUuid, shapesUuid, vertices, matrices, indexes, matrixWo
   shapes[shapesUuid] = physicsShapes;
 }
 
+function setShapesOffset({ bodyUuid, offset }) {
+  if (!bodies[bodyUuid]) return;
+
+  bodies[bodyUuid].setShapesOffset(offset);
+}
+
 function addConstraint({ constraintId, bodyUuid, targetUuid, options }) {
   if (bodies[bodyUuid] && bodies[targetUuid]) {
     options = options || {};
@@ -431,6 +440,16 @@ onmessage = async event => {
         const bodyUuid = event.data.bodyUuid;
         if (bodies[bodyUuid]) {
           addShapes(event.data);
+        } else {
+          messageQueue.push(event.data);
+        }
+        break;
+      }
+
+      case MESSAGE_TYPES.SET_SHAPES_OFFSET: {
+        const bodyUuid = event.data.bodyUuid;
+        if (bodies[bodyUuid]) {
+          setShapesOffset(event.data);
         } else {
           messageQueue.push(event.data);
         }

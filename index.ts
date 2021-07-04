@@ -73,6 +73,14 @@ export const WorkerHelpers = function(ammoWorker) {
       }
     },
 
+    bodySetShapesOffset(bodyUuid, offset) {
+      ammoWorker.postMessage({
+        type: MESSAGE_TYPES.SET_SHAPES_OFFSET,
+        bodyUuid,
+        offset
+      });
+    },
+
     removeShapes(bodyUuid, shapesUuid) {
       ammoWorker.postMessage({
         type: MESSAGE_TYPES.REMOVE_SHAPES,

@@ -92,6 +92,10 @@ export default class Body {
   ccdMotionThreshold: number;
   ccdSweptSphereRadius: number;
 
+  tmpVec: Ammo.btVector3;
+  tmpTransform1: Ammo.btTransform;
+  tmpTransform2: Ammo.btTransform;
+
   constructor(bodyConfig: BodyConfig, matrix: Matrix4, world: World) {
     this.loadedEvent = bodyConfig.loadedEvent ? bodyConfig.loadedEvent : "";
     this.mass = bodyConfig.hasOwnProperty("mass") ? bodyConfig.mass : 1;
@@ -132,6 +136,10 @@ export default class Body {
     this.matrix = matrix;
     this.world = world;
     this.shapes = [];
+
+    this.tmpVec = new Ammo.btVector3();
+    this.tmpTransform1 = new Ammo.btTransform();
+    this.tmpTransform2 = new Ammo.btTransform();
 
     this._initBody();
   }
@@ -333,6 +341,9 @@ export default class Body {
     Ammo.destroy(this.localInertia);
     Ammo.destroy(this.rotation);
     Ammo.destroy(this.gravity);
+    Ammo.destroy(this.tmpVec);
+    Ammo.destroy(this.tmpTransform1);
+    Ammo.destroy(this.tmpTransform2);
   }
 
   /**
@@ -394,6 +405,23 @@ export default class Body {
     this.compoundShape.addChildShape(collisionShape.localTransform, collisionShape);
     this.shapesChanged = true;
     this.updateShapes();
+  }
+
+  setShapesOffset(offset) {
+    this.tmpVec.setValue(offset.x, offset.y, offset.z);
+
+    this.tmpTransform1.setIdentity();
+    this.tmpTransform1.setOrigin(this.tmpVec);
+
+    for (let i = 0; i < this.shapes.length; i++) {
+      const child = this.shapes[i];
+
+      this.tmpTransform2.setIdentity();
+      this.tmpTransform2.op_mul(child.localTransform);
+      this.tmpTransform2.op_mul(this.tmpTransform1);
+
+      this.compoundShape.updateChildTransform(i, this.tmpTransform2);
+    }
   }
 
   removeShape(collisionShape) {
