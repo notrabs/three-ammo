@@ -12,6 +12,12 @@ export const WorkerHelpers = function(ammoWorker) {
   const inverse = new Matrix4();
 
   return {
+    transferData(objectMatricesFloatArray: Float32Array) {
+      ammoWorker.postMessage({ type: MESSAGE_TYPES.TRANSFER_DATA, objectMatricesFloatArray }, [
+        objectMatricesFloatArray.buffer
+      ]);
+    },
+
     addBody(uuid, mesh, options = {}) {
       inverse.copy(mesh.parent.matrixWorld).invert();
       transform.multiplyMatrices(inverse, mesh.matrixWorld);

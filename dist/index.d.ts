@@ -1,6 +1,7 @@
 export * from "./constants";
 export * from "./src/types";
 export declare const WorkerHelpers: (ammoWorker: any) => {
+    transferData(objectMatricesFloatArray: Float32Array): void;
     addBody(uuid: any, mesh: any, options?: {}): void;
     updateBody(uuid: any, options: any): void;
     removeBody(uuid: any): void;

@@ -406,7 +406,8 @@ onmessage = async event => {
       lastTick = performance.now();
       simulationRate = event.data.simulationRate === undefined ? CONSTANTS.SIMULATION_RATE : event.data.simulationRate;
       tickInterval = self.setInterval(tick, simulationRate);
-      postMessage({ type: MESSAGE_TYPES.READY });
+
+      postMessage({ type: MESSAGE_TYPES.READY, arrayBuffer: event.data.arrayBuffer }, [event.data.arrayBuffer]);
     });
   } else if (event.data.type === MESSAGE_TYPES.TRANSFER_DATA) {
     if (event.data.simulationRate !== undefined) {

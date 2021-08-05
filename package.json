@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/node": "^14.14.37",
     "ammo-debug-drawer": "github:infinitelee/ammo-debug-drawer",
-    "ammo.js": "github:mozillareality/ammo.js#hubs/master",
+    "ammo.js": "github:kripken/ammo.js",
     "ammojs-typed": "^1.0.6",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
